@@ -25,17 +25,23 @@ Restart Redmine, and you should see the plugin show up in the Plugins page.
 
 ## Using
 
+### Create project custom field
+
 Create project custom field named "Telegram Channel" for ex: http://example.com/custom_fields/new?utf8=%E2%9C%93&type=ProjectCustomField (without quotes).
 
 ![Custom field](images/redmine_telegram_global_customfield.png)
 
-And use it into project settings
+Set channel into project settings
 
 ![Project settings](images/redmine_telegram_global_project_settings.png)
 
-Or for all projects - http://example.com/settings/plugin/redmine_telegram_global
+### Global for all projects
+
+For all projects - http://example.com/settings/plugin/redmine_telegram_global
 
 ![Plugin settings](images/redmine_telegram_global_setting.png)
+
+### Exclude project
 
 To disable project from messaging use dash symbol, without quotes '-'
 
