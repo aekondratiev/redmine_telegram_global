@@ -49,7 +49,7 @@ Now you can use last version.
 
 From Redmine plugin directory run command
 
-	rake redmine:plugins:migrate NAME=redmine_telegram_global VERSION=0 RAILS_ENV=production
+	bundle exec rake redmine:plugins:migrate NAME=redmine_telegram_global VERSION=0 RAILS_ENV=production
 
 After that restart Redmine.
 
