@@ -19,7 +19,7 @@ from the plugin directory.
 
 Start migration command
 
-	rake redmine:plugins:migrate RAILS_ENV=production
+	bundle exec rake redmine:plugins:migrate RAILS_ENV=production
 
 Restart Redmine, and you should see the plugin show up in the Plugins page.
 
