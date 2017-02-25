@@ -31,6 +31,8 @@ Create project custom field named "Telegram Channel" for ex: http://example.com/
 
 ![Custom field](images/redmine_telegram_global_customfield.png)
 
+### For individual project or projects
+
 Set channel into project settings
 
 ![Project settings](images/redmine_telegram_global_project_settings.png)
