@@ -19,7 +19,7 @@ from the plugin directory.
 
 Start migration command
 
-	bundle exec rake redmine:plugins:migrate RAILS_ENV=production
+	rake redmine:plugins:migrate RAILS_ENV=production
 
 Restart Redmine, and you should see the plugin show up in the Plugins page.
 
@@ -27,9 +27,19 @@ Restart Redmine, and you should see the plugin show up in the Plugins page.
 
 Create project custom field named "Telegram Channel" for ex: http://example.com/custom_fields/new?utf8=%E2%9C%93&type=ProjectCustomField (without quotes).
 
+![Custom field](images/redmine_telegram_global_customfield.png)
+
+And use it into project settings
+
+![Project settings](images/redmine_telegram_global_project_settings.png)
+
 Or for all projects - http://example.com/settings/plugin/redmine_telegram_global
 
 ![Plugin settings](images/redmine_telegram_global_setting.png)
+
+To disable project from messaging use dash symbol, without quotes '-'
+
+![Disable messaging](images/redmine_telegram_global_project_disable.png)
 
 ## Update plugin
 
@@ -39,7 +49,7 @@ Go to plugin girectory and pull last version
 
 Then start migration database to new version
 
-	rake redmine:plugins:migrate RAILS_ENV=production
+	bundle exec rake redmine:plugins:migrate RAILS_ENV=production
 
 Last step - restart your web-server to apply changes.
 
