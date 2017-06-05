@@ -33,8 +33,11 @@ class TelegramListener < Redmine::Hook::Listener
       # client.ssl_config.cert_store.set_default_paths
       # client.ssl_config.ssl_version = "SSLv23"
       # client.post_async url, {:payload => params.to_json}
+      client.connect_timeout = 1
       client.send_timeout = 1
       client.receive_timeout = 1
+      client.keep_alive_timeout = 1
+      client.ssl_config.timeout = 1
       conn = client.post_async(url, params)
       Rails.logger.info("TELEGRAM RETURN CODE: #{conn.pop.status_code}")
     rescue Exception => e
