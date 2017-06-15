@@ -22,28 +22,30 @@ class TelegramListener < Redmine::Hook::Listener
 
     params[:text] = msg
 
-    Rails.logger.info("TELEGRAM SEND TO: #{channel}")
+    Rails.logger.info("TELEGRAM GLOBAL SEND TO: #{channel}")
+    Rails.logger.info("TELEGRAM GLOBAL TOKEN EMPTY, PLEASE SET IT IN PLUGIN SETTINGS") if token.nil? || token.empty?
 
-    begin
-      if Setting.plugin_redmine_telegram_global[:use_proxy] == '1'
-        client = HTTPClient.new(proxyurl)
-      else
-        client = HTTPClient.new
+    Thread.new do
+      retries = 0
+      begin
+        if Setting.plugin_redmine_telegram_global[:use_proxy] == '1'
+          client = HTTPClient.new(proxyurl)
+        else
+          client = HTTPClient.new
+        end
+        client.connect_timeout = 2
+        client.send_timeout = 2
+        client.receive_timeout = 2
+        client.keep_alive_timeout = 2
+        client.ssl_config.timeout = 2
+        conn = client.post_async(url, params)
+        Rails.logger.info("TELEGRAM GLOBAL SEND CODE: #{conn.pop.status_code}")
+      rescue Exception => e
+        Rails.logger.warn("TELEGRAM GLOBAL CANNOT CONNECT TO #{url} RETRY ##{retries}, ERROR #{e}")
+        retry if (retries += 1) < 5
       end
-      # client.ssl_config.cert_store.set_default_paths
-      # client.ssl_config.ssl_version = "SSLv23"
-      # client.post_async url, {:payload => params.to_json}
-      client.connect_timeout = 1
-      client.send_timeout = 1
-      client.receive_timeout = 1
-      client.keep_alive_timeout = 1
-      client.ssl_config.timeout = 1
-      conn = client.post_async(url, params)
-      Rails.logger.info("TELEGRAM RETURN CODE: #{conn.pop.status_code}")
-    rescue Exception => e
-      Rails.logger.warn("TELEGRAM CANNOT CONNECT TO #{url}")
-      Rails.logger.warn(e)
     end
+
   end
 
   def controller_issues_new_after_save(context={})
