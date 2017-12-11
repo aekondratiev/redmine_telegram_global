@@ -52,8 +52,6 @@ class TelegramListener < Redmine::Hook::Listener
     issue = context[:issue]
     channel = channel_for_project issue.project
     token = token_for_project issue.project
-    exclude_trackers = Setting.plugin_redmine_telegram_global[:exclude_trackers].split(" ").map {|i| String(i) }
-    exclude_users = Setting.plugin_redmine_telegram_global[:exclude_users].split(" ").map {|i| String(i) }
     priority_id = 1
     priority_id = Setting.plugin_redmine_telegram_global[:priority_id_add].to_i if Setting.plugin_redmine_telegram_global[:priority_id_add].present?
 
@@ -85,7 +83,7 @@ class TelegramListener < Redmine::Hook::Listener
       :short => true
     } if Setting.plugin_redmine_telegram_global[:display_watchers] == 'yes'
 
-    unless exclude_trackers.include? issue.tracker_id.to_s or exclude_users.include? issue.author_id.to_s
+    unless issue.tracker_id.to_s or issue.author_id.to_s
       speak msg, channel, attachment, token if issue.priority_id.to_i >= priority_id
     end
 
@@ -96,8 +94,6 @@ class TelegramListener < Redmine::Hook::Listener
     journal = context[:journal]
     channel = channel_for_project issue.project
     token = token_for_project issue.project
-    exclude_trackers = Setting.plugin_redmine_telegram_global[:exclude_trackers].split(" ").map {|i| String(i) }
-    exclude_users = Setting.plugin_redmine_telegram_global[:exclude_users].split(" ").map {|i| String(i) }
     priority_id = 1
     priority_id = Setting.plugin_redmine_telegram_global[:priority_id_add].to_i if Setting.plugin_redmine_telegram_global[:priority_id_add].present?
 
@@ -113,7 +109,7 @@ class TelegramListener < Redmine::Hook::Listener
     attachment[:text] = escape journal.notes if journal.notes
     attachment[:fields] = journal.details.map { |d| detail_to_field d }
 
-    unless exclude_trackers.include? issue.tracker_id.to_s or exclude_users.include? journal.user_id.to_s
+    unless issue.tracker_id.to_s or journal.user_id.to_s
       speak msg, channel, attachment, token if issue.priority_id.to_i >= priority_id
     end
 
